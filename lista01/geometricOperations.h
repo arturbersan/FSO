@@ -3,9 +3,8 @@
 #include "cartesianPlaneStruct.h"
 
   double getSideSize(Point pointA, Point pointB);
-  double hypotenuse(Point pointA, Point pointB);
-  int isTriangle();
-  double getPerimeter();
-  double getArea();
+  short isTriangle(Triangle triangle);
+  double getPerimeter(Triangle triangle);
+  double getArea(Triangle triangle);
 
 #endif

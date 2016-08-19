@@ -6,7 +6,7 @@ typedef struct point {
   int y;
 } Point;
 
-struct triangle {
+typedef struct triangle {
   Point pointA;
   Point pointB;
   Point pointC;

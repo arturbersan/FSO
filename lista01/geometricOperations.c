@@ -4,32 +4,76 @@
 #include "cartesianPlaneStruct.h"
 
 double getSideSize(Point pointA, Point pointB){
-  printf("a PointX = %d\n", pointA.x);
-  printf("b PointY = %d\n", pointB.x);
 
   double differenceX = pointA.x - pointB.x;
-  printf("DifferenceX = %lf\n", differenceX);
   double differenceY = pointA.y - pointB.y;
-  printf("DifferenceY = %lf\n", differenceY);
   double sideSize = hypot(differenceX,differenceY);
 
-  printf("Distance = %lf\n", sideSize);
   return sideSize;
 }
 
-int main(){
+short isTriangle(Triangle triangle){
+  double sideSizeA = getSideSize(triangle.pointA,triangle.pointB);
+  double sideSizeB = getSideSize(triangle.pointA,triangle.pointC);
+  double sideSizeC = getSideSize(triangle.pointC,triangle.pointB);
 
-  Point pointA, pointB;
-
-  pointA.x = 4;
-  pointA.y = 5;
-
-  pointB.x = 1;
-  pointB.y = 1;
-
-  double a;
-
-  a = getSideSize(pointA,pointB);
-
-  return 0;
+  if(sideSizeA+sideSizeB > sideSizeC && sideSizeA+sideSizeC > sideSizeB && sideSizeB+sideSizeC > sideSizeA)
+    return 1;
+  else
+    return 0;
 }
+
+double getPerimeter(Triangle triangle){
+  double sideSizeA = getSideSize(triangle.pointA,triangle.pointB);
+  double sideSizeB = getSideSize(triangle.pointA,triangle.pointC);
+  double sideSizeC = getSideSize(triangle.pointC,triangle.pointB);
+  double result = sideSizeA + sideSizeB + sideSizeC;
+
+  if(isTriangle(triangle)){
+    printf("Perimiter = %lf\n", result);
+    return result;
+  }
+  else
+    printf("Is not a triangle\n");
+}
+
+
+double getArea(Triangle triangle){
+  double semiPerimeter = getPerimeter(triangle)/2;
+  double sideSizeA = getSideSize(triangle.pointA,triangle.pointB);
+  double sideSizeB = getSideSize(triangle.pointA,triangle.pointC);
+  double sideSizeC = getSideSize(triangle.pointC,triangle.pointB);
+
+  double result = sqrt(semiPerimeter*(semiPerimeter-sideSizeA)*(semiPerimeter-sideSizeB)*(semiPerimeter-sideSizeC));
+
+  if(isTriangle(triangle)){
+    printf("Area = %lf\n", result);
+    return result;
+  }
+  else
+    return 0;
+}
+
+/* int main(){ */
+/*  */
+/*   Point pointA, pointB, pointC; */
+/*   Triangle triangle; */
+/*  */
+/*   pointA.x = 3; */
+/*   pointA.y = 6; */
+/*  */
+/*   pointB.x = 1; */
+/*   pointB.y = 2; */
+/*  */
+/*   pointC.x = 5; */
+/*   pointC.y = 1; */
+/*  */
+/*   triangle.pointA = pointA; */
+/*   triangle.pointB = pointB; */
+/*   triangle.pointC = pointC; */
+/*  */
+/*   double perimeter = getPerimeter(triangle); */
+/*   double area = getArea(triangle); */
+/*  */
+/*   return 0; */
+/* } */
