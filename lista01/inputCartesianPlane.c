@@ -56,7 +56,3 @@ void menu(){
       printf("Invalid chacter\n");
   }
 }
-
-/* int main(){ */
-/*   menu(); */
-/* } */

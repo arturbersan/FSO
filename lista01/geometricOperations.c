@@ -53,27 +53,3 @@ double getArea(Triangle triangle){
   else
     return 0;
 }
-
-/* int main(){ */
-/*  */
-/*   Point pointA, pointB, pointC; */
-/*   Triangle triangle; */
-/*  */
-/*   pointA.x = 3; */
-/*   pointA.y = 6; */
-/*  */
-/*   pointB.x = 1; */
-/*   pointB.y = 2; */
-/*  */
-/*   pointC.x = 5; */
-/*   pointC.y = 1; */
-/*  */
-/*   triangle.pointA = pointA; */
-/*   triangle.pointB = pointB; */
-/*   triangle.pointC = pointC; */
-/*  */
-/*   double perimeter = getPerimeter(triangle); */
-/*   double area = getArea(triangle); */
-/*  */
-/*   return 0; */
-/* } */
