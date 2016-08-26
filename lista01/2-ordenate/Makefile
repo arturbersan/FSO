@@ -1,6 +1,6 @@
 CC=gcc
 FLAGS=-lm -o
-FILES=ordenate.c dinamicVector.c
+FILES=ordenate.c dinamicVector.c treatParameters.c main.c
 
 cartesian_plane:
 	${CC} ${FILES} ${FLAGS} prog
