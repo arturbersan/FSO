@@ -6,8 +6,6 @@
 #include"treatParameters.h"
 
 int main(int argc, char **argv){
-  int vector[] = {4,1,2,4,9,1,12};
-  int i;
   int flag = 0;
   if(argc>1){
     array collection = parse_string_to_int(argc,argv);
