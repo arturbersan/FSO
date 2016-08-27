@@ -1,5 +1,5 @@
 CC=gcc
-FLAGS=-lm -o # -pthread
+FLAGS=-lm -pthread -o
 FILES=dinamicVector.c maxWithThreads.c
 
 cartesian_plane:
