@@ -4,42 +4,34 @@
 #include"dinamicVector.h"
 #include"maxWithThreads.h"
 
-void *init_vector_w(int argc){
-  /* int *w = malloc(sizeof(int)*(argc-1*argc-2)/2); */
-  int j,i;
-  pthread_t *w = (pthread_t *) malloc(sizeof(pthread_t)*argc-1);
-  for(i=0;i<argc-1;i++){
-    int *arg = malloc(sizeof(*arg));
-    if ( arg == NULL ) {
-      fprintf(stderr, "Couldn't allocate memory for thread arg.\n");
-      exit(EXIT_FAILURE);
+void * thread_body (void * param)
+{
+  int *prm = (int*)param;
+  *prm=1;
+}
+
+int main(int argc,char **argv){
+  if(argc>1){
+    int size_array_w = ((argc-1)*(argc-2))/2;
+
+    int *w = malloc(sizeof(int)*size_array_w);
+    pthread_t *thread = (pthread_t *) malloc(sizeof(pthread_t)*10);
+
+    int i;
+    for(i=0;i<size_array_w;i++){
+      pthread_create(&thread[i], NULL, thread_body, &w[i]);
     }
-
-    *arg = i;
-    pthread_create(&w[i], NULL,init_with_i, arg);
-
+    for(i=0;i<size_array_w;i++){
+      pthread_join (thread[i], NULL);
+    }
+    for(i=0;i<size_array_w;i++){
+      printf("%d\n",w[i]);
+    }
+    array collection = parse_string_to_int(argc,argv);
+    print_collection(collection);
+  } else {
+    printf("This program needs more parameters\n");
   }
-  for(j=0;j<argc-1;j++){
-    pthread_join(w[j], NULL);
-  }
-
-}
-
-void * init_with_i(void *args){
-  int a = *((int *) args);
-  printf("argc = %d\n", *((int *)args) );
-  free(args);
-}
-
-int main(int argc, char** argv){
-
-  init_vector_w(argc);
-  /* if(argc>1){ */
-  /*   array collection = parse_string_to_int(argc,argv); */
-  /*   print_collection(collection); */
-  /* } else { */
-  /*   printf("This program needs more parameters\n"); */
-  /* } */
-
   return 0;
 }
+
