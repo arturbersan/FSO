@@ -3,7 +3,7 @@ LIBS = -lpthread
 SRC = ${wildcard *.c}
 
 a:
-	$(CC) q03a.c $(LIBS)
+	$(CC) q03a.c matrix.c $(LIBS)
 
 b:
 	$(CC) q03b.c matrix.c $(LIBS)
