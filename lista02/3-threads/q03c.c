@@ -66,8 +66,15 @@ int main(int argc, char const *argv[])
         struct matrix_multiply_member *member;
         struct matrix_multiply_member **vector_to_free = malloc(rows_A*cols_B*sizeof(struct matrix_multiply_member*));;
         int ptr=0;
+        int threads_supervisor = 0;
         for (int i=0; i < rows_A; ++i) {
             for (int j=0; j < cols_B; ++j) {
+                if (threads_supervisor == proc_num) {
+                    for (int w=ptr-1; w>=ptr-4; w--) {
+                        pthread_join(threads_vector[i], NULL);
+                    }
+                    threads_supervisor = 0;
+                }
                 member = malloc(sizeof(struct matrix_multiply_member));
                 vector_to_free[ptr] = member;
                 member->cols = cols_A;
@@ -78,13 +85,17 @@ int main(int argc, char const *argv[])
                 member->i = i;
                 member->j = j;
                 pthread_create(&threads_vector[ptr], NULL, &calc_cell, (void *)member);
+                threads_supervisor++;
                 ptr++;
             }
         }
 
         /* wait for threads to finish */
+        int last_thread_index = ptr-threads_supervisor;
+        for (int w=ptr-1; w>=last_thread_index; w--) {
+            pthread_join(threads_vector[w], NULL);
+        }
         for (int i=0; i < ptr; ++i) {
-            pthread_join(threads_vector[i], NULL);
             free(vector_to_free[i]);
         }
 
