@@ -20,6 +20,16 @@ void* calc_cell(void * arg)
 
 int main(int argc, char const *argv[])
 {
+    /* get num of threads to be used */
+    char buf[256];
+    snprintf(buf, sizeof(buf), "cat < /proc/cpuinfo | grep -c processor > num_of_threads");
+    system(buf);
+    FILE *fp = fopen("num_of_threads", "r");
+    int proc_num = 1;
+    fscanf(fp, "%d", &proc_num);
+    fclose(fp);
+    printf("Num of threads to be used: %d\n", proc_num);
+
     struct matrix A, B, AxB;
     int rows_A, rows_B, cols_A, cols_B;
     printf("Input is: rows of A matrix, cols of A matrix, rows of B matrix, cols of B matrix\n\n");
