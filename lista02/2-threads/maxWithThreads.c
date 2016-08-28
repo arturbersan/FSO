@@ -9,7 +9,15 @@ void *init_vector_w(int argc){
   int j,i;
   pthread_t *w = (pthread_t *) malloc(sizeof(pthread_t)*argc-1);
   for(i=0;i<argc-1;i++){
-    pthread_create(&w[i], NULL,init_with_i, &i);
+    int *arg = malloc(sizeof(*arg));
+    if ( arg == NULL ) {
+      fprintf(stderr, "Couldn't allocate memory for thread arg.\n");
+      exit(EXIT_FAILURE);
+    }
+
+    *arg = i;
+    pthread_create(&w[i], NULL,init_with_i, arg);
+
   }
   for(j=0;j<argc-1;j++){
     pthread_join(w[j], NULL);
@@ -18,7 +26,9 @@ void *init_vector_w(int argc){
 }
 
 void * init_with_i(void *args){
-  printf("Args = %d\n", *((int *)args) );
+  int a = *((int *) args);
+  printf("argc = %d\n", *((int *)args) );
+  free(args);
 }
 
 int main(int argc, char** argv){
