@@ -16,6 +16,12 @@ void * thread_compare_body(void * param)
   *prm=0;
 }
 
+void * bigger_number_body(void * param)
+{
+  int prm = *((int*)param);
+  printf("Bigest number is =  %d\n",prm);
+}
+
 int * init_array_w(int argc)
 {
   int size_array_w = argc-1;
@@ -32,7 +38,7 @@ int * init_array_w(int argc)
   return w;
 }
 
-void * thread_compare(int argc,char **argv)
+int * thread_compare(int argc,char **argv)
 {
   int size_array_compare = ((argc-1)*(argc-2))/2;
   pthread_t *thread = (pthread_t *) malloc(sizeof(pthread_t)*size_array_compare);
@@ -44,9 +50,8 @@ void * thread_compare(int argc,char **argv)
   }
   array collection = parse_string_to_int(argc,argv);
   print_collection(collection);
-  for(i=0;i<=size_array_compare/2;i++){
-    for(j=i+1;j<=size_array_compare/2;j++){
-      printf("pair (%d,%d)\n", i,j);
+  for(i=0;i<argc-1;i++){
+    for(j=i+1;j<argc-1;j++){
       if(collection.content[i]>collection.content[j])
         pthread_create(&thread[j], NULL, thread_compare_body, &w[j]);
       else
@@ -57,20 +62,31 @@ void * thread_compare(int argc,char **argv)
   for(i=0;i<argc-1;i++){
     printf("%d\n",w[i]);
   }
-  /* for(i=0;i<size_array_compare;i++){ */
-  /*   pthread_join (thread[i], NULL); */
-  /* } */
+  for(i=0;i<size_array_compare;i++){
+    pthread_join (thread[i], NULL);
+  }
+
+  return w;
+}
+
+void get_bigger_number(int argc, char ** argv)
+{
+  int size_of_thread = argc-1;
+  array collection = parse_string_to_int(argc,argv);
+  int *w = thread_compare(argc,argv);
+  int i;
+  pthread_t *thread = (pthread_t *) malloc(sizeof(pthread_t)*size_of_thread);
+  for(i=0;i<size_of_thread;i++){
+    if(w[i])
+      pthread_create(&thread[i], NULL, bigger_number_body, &collection.content[i]);
+  }
+
 }
 
 int main(int argc,char **argv)
 {
   if(argc>1){
-    int *w = init_array_w(argc);
-    int i;
-    /* int size_array_w = ((argc-1)*(argc-2))/2; */
-    int size_array_w = argc-1;
-    thread_compare(argc,argv);
-
+    get_bigger_number(argc,argv);
   } else {
     printf("This program needs more parameters\n");
   }
