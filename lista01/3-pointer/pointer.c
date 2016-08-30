@@ -29,9 +29,7 @@ int main(){
 
   strcat(s2,s1);
   printf("String anexada %s\n",s2);
-  printf("A execução anterior pode dar problema, caso a anexagem estourar a memória\n");
-  int sizeString = strlen(s1);
-  printf("Tamanho da s1 eh = %d\n",sizeString);
+  printf("A execução anterior pode dar problema, caso a anexagem estourar a memória, ou seja, passe de 100 itens\n");
 
   return 0;
 }
