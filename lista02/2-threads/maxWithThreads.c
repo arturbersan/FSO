@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<math.h>
 #include<stdlib.h>
 #include<pthread.h>
 #include"dinamicVector.h"
@@ -12,8 +13,19 @@ void * thread_w_body(void * param)
 
 void * thread_compare_body(void * param)
 {
-  int *prm = (int*)param;
-  *prm=0;
+  struct w_struct node = node;
+  int i_cell = node.i_cell;
+  int j_cell = node.j_cell;
+  int i_position = node.j_position;
+  int j_position = node.j_position;
+
+  if(i_cell>j_cell)
+    node.result[j_position] = 0;
+  else
+    node.result[i_position] = 0;
+
+  free(param);
+  pthread_exit(0);
 }
 
 void * bigger_number_body(void * param)
@@ -35,6 +47,8 @@ int * init_array_w(int argc)
     pthread_join (thread[i], NULL);
   }
 
+  free(thread);
+
   return w;
 }
 
@@ -52,10 +66,16 @@ int * thread_compare(int argc,char **argv)
   print_collection(collection);
   for(i=0;i<argc-1;i++){
     for(j=i+1;j<argc-1;j++){
-      if(collection.content[i]>collection.content[j])
-        pthread_create(&thread[j], NULL, thread_compare_body, &w[j]);
-      else
-        pthread_create(&thread[i], NULL, thread_compare_body, &w[i]);
+      printf("PAssouz2222222\n");
+      struct w_struct *cell = malloc(sizeof(struct w_struct));
+      printf("PAssouz\n");
+      cell->result = w;
+      cell->i_cell = collection.content[i];
+      cell->j_cell = collection.content[j];
+      cell->j_position = i;
+      cell->j_position = j;
+      printf("PAssouz2222222\n");
+      pthread_create(&thread[j], NULL, thread_compare_body, (void *)cell);
     }
   }
   printf("w depois\n");
@@ -65,6 +85,8 @@ int * thread_compare(int argc,char **argv)
   for(i=0;i<size_array_compare;i++){
     pthread_join (thread[i], NULL);
   }
+
+  free(thread);
 
   return w;
 }
@@ -81,6 +103,7 @@ void get_bigger_number(int argc, char ** argv)
       pthread_create(&thread[i], NULL, bigger_number_body, &collection.content[i]);
   }
 
+  free(thread);
 }
 
 int main(int argc,char **argv)
