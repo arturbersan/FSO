@@ -29,7 +29,7 @@ int main(){
 
   strcat(s2,s1);
   printf("String anexada %s\n",s2);
-  printf("A execução anterior pode dar problema, caso a anexagem estourar a memória, ou seja, passe de 100 itens\n");
+  printf("A execução anterior pode dar problema, caso a anexagem estoure a memória por passar do limite de itens\n");
 
   return 0;
 }

@@ -1,8 +1,15 @@
-## Sistema Operacional Utilizado:
-Ubunto Linux - x86_64 Kernel 3.13.0-32-generic
+# FSO - Trabalho 1, Questão 1
+>  Alunos: Dylan Guedes e Artur Bersan
 
-## Ambiente de Desenvolvimento:
-Computadores pessoais. Utilizamos o Linux, Makefile, git e vim.
+>  Matrículas: 12/0115727 e 14/0016813
+
+## Sistema Operacional Utilizado
+> Ubuntu Linux - x86_64 Kernel 3.13.0-32-generic
+
+> Linux Fedora 24 - x86_64 Kernel 4.6.3-300
+
+## Ambiente de Desenvolvimento
+> Computadores pessoais. Utilizamos o Linux, Makefile, git, valgrind e vim.
 
 ## Instruções
 #### Compilando
@@ -25,6 +32,21 @@ Também é possível insirir os dados, de acordo como se pede no programa.
 Caso se os pontos dados pela entrada formarem um triangulo, o programa responderá com o tamanho de cada lado, com seu perimetro e área. Caso contrário, será imprimido na tela:
 "Is not a triangle".
 
-# Limitações conhecidas
+#### Caso de Teste Válido
+Um caso de teste válido seria executar o binário com os seguintes argumentos:
+```
+y
+3 6
+1 2
+5 1
+y
+0 5
+5 5
+3 5
+n
+```
 
-Escrever essa parte
+## Limitações conhecidas
+
+- Erros de precisão podem ocorrer, por se tratarem de variáveis de ponto flutuante
+- As variáveis tem um limite de tamanho (diferente do BigInteger do Java, por exemplo)
