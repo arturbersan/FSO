@@ -53,21 +53,19 @@ int main(int argc, char const *argv[])
         /* calculates AxB */
         pthread_t *threads_vector = malloc(rows_A*cols_B*sizeof(pthread_t*));
 
-        struct matrix_multiply_member *member;
-        struct matrix_multiply_member **vector_to_free = malloc(rows_A*cols_B*sizeof(struct matrix_multiply_member*));;
+        struct matrix_multiply_member **cells = malloc(rows_A*cols_B*sizeof(struct matrix_multiply_member*));;
         int ptr=0;
         for (int i=0; i < rows_A; ++i) {
             for (int j=0; j < cols_B; ++j) {
-                member = malloc(sizeof(struct matrix_multiply_member));
-                vector_to_free[ptr] = member;
-                member->cols = cols_A;
-                member->rows = rows_B;
-                member->content = AxB.content;
-                member->A = A.content;
-                member->B = B.content;
-                member->i = i;
-                member->j = j;
-                pthread_create(&threads_vector[ptr], NULL, &calc_cell, (void *)member);
+                cells[ptr] = malloc(sizeof(struct matrix_multiply_member));
+                cells[ptr]->cols = cols_A;
+                cells[ptr]->rows = rows_B;
+                cells[ptr]->content = AxB.content;
+                cells[ptr]->A = A.content;
+                cells[ptr]->B = B.content;
+                cells[ptr]->i = i;
+                cells[ptr]->j = j;
+                pthread_create(&threads_vector[ptr], NULL, &calc_cell, (void *)cells[ptr]);
                 ptr++;
             }
         }
@@ -75,7 +73,7 @@ int main(int argc, char const *argv[])
         /* wait for threads to finish */
         for (int i=0; i < ptr; ++i) {
             pthread_join(threads_vector[i], NULL);
-            free(vector_to_free[i]);
+            free(cells[i]);
         }
 
         printf("A:\n");
@@ -86,7 +84,7 @@ int main(int argc, char const *argv[])
         print_matrix(rows_A, cols_B, AxB.content);
 
         /* free stuff */
-        free(vector_to_free);
+        free(cells);
         free(threads_vector);
         clear_matrix(&A);
         clear_matrix(&B);

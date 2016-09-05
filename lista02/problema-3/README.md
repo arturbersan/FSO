@@ -69,3 +69,4 @@ Também é possível utilizar o arquivo "large_input", que apresenta uma matriz 
 # Limitações conhecidas
 - O valgrind alerta que talvez alguns blocos de memória tenham sido perdidos na solução C
 - O input não é grande o suficiente para fazer com que as soluções que usem thread tenham chance de ter melhor desempenho que a solução que não use.
+- Na solução C, as threads utilizadas sempre vão "em batch". Exemplo: no caso de 4 threads, são lançadas 4 threads. A quinta thread não é liberada até que as 4 sejam finalizadas.
