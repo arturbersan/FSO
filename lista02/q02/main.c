@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
+#include "dinamicVector.h"
 
 void *reset_position(void *param)
 {
@@ -49,19 +50,21 @@ void *greater_cell(void *param)
     pthread_exit(0);
 }
 
-int *thread_compare(int *arr, int length)
+int *thread_compare(int argc, char **argv)
 {
+    int length = argc-1;
     int *w = reset_results(length);
     int m = length*(length-1)/2;
     pthread_t *threads_vector = (pthread_t *)malloc(sizeof(pthread_t)*m);
+    array collection = parse_string_to_int(argc,argv);
 
     struct cell_to_calc *cells = malloc(sizeof(struct cell_to_calc)*(m));
     int ptr = 0;
 
     for (int i=0; i < length; ++i) {
         for (int j=i+1; j < length; ++j) {
-            cells[ptr].i = arr[i];
-            cells[ptr].j = arr[j];
+            cells[ptr].i = collection.content[i];
+            cells[ptr].j = collection.content[j];
             cells[ptr].i_pos = i;
             cells[ptr].j_pos = j;
             cells[ptr].arr = w;
@@ -79,25 +82,18 @@ int *thread_compare(int *arr, int length)
     return w;
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char **argv)
 {
-    int length;
+    int length = argc-1;
 
-    while (scanf("%d", &length)==1) {
-        int *arr = malloc(sizeof(int)*length);
-        for (int i=0;i<length;++i) {
-            scanf("%d", &arr[i]);
-        }
+    int *w = thread_compare(argc, argv);
+   array collection = parse_string_to_int(argc,argv);
 
-        int *w = thread_compare(arr, length);
-
-        for (int i=0; i < length; ++i) {
-            if (w[i])
-                printf("Greatest number: %d\n", arr[i]);
-        }
-
-        free(w);
-        free(arr);
+    for (int i=0; i < length; ++i) {
+        if (w[i])
+            printf("Greatest number: %d\n", collection.content[i]);
     }
+
+    free(w);
     return 0;
 }
