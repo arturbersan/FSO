@@ -50,10 +50,19 @@ void *greater_cell(void *param)
     pthread_exit(0);
 }
 
+void print_w(int *w, int length){
+    for(int i; i < length; ++i){
+        printf(" %d",w[i]);
+    }
+}
+
 int *thread_compare(int argc, char **argv)
 {
     int length = argc-1;
     int *w = reset_results(length);
+    printf("After initialization w =");
+    print_w(w,length);
+    printf("\n");
     int m = length*(length-1)/2;
     pthread_t *threads_vector = (pthread_t *)malloc(sizeof(pthread_t)*m);
     array collection = parse_string_to_int(argc,argv);
@@ -84,16 +93,26 @@ int *thread_compare(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
-    int length = argc-1;
+    int length = atoi(argv[1]);
 
-    int *w = thread_compare(argc, argv);
-   array collection = parse_string_to_int(argc,argv);
+    if(length==argc-2 && length<=100){
+        printf("Number of input values = %d\n", length);
+        array collection = parse_string_to_int(argc,argv);
+        print_collection(collection);
+        int *w = thread_compare(argc, argv);
+        printf("After Step 2\nw =");
+        print_w(w,length);
+        printf("\n");
 
-    for (int i=0; i < length; ++i) {
-        if (w[i])
-            printf("Greatest number: %d\n", collection.content[i]);
+        for (int i=0; i < length; ++i) {
+          if (w[i]){
+            printf("Maximum = %d\nLocation = %d\n", collection.content[i],i);
+          }
+        }
+
+        free(w);
+        return 0;
+    } else {
+        printf("Size of array or amount of parameter invalid\n");
     }
-
-    free(w);
-    return 0;
 }

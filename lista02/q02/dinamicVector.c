@@ -32,29 +32,21 @@ array init_array(){
 
 void print_collection(array collection){
   int i;
+  printf("Input values x =");
   for(i=0;i<collection.last_item_index;i++){
-    printf("%d = %d\n",i,collection.content[i]);
+    printf(" %d",collection.content[i]);
   }
+  printf("\n");
 }
 
 array parse_string_to_int(int argc, char **argv){
   array collection = init_array();
   int i;
 
-  for(i=1;i<argc;i++){
+  for(i=2;i<argc;i++){
     collection = push_back(&collection, atoi(argv[i]));
   }
 
   return collection;
 }
 
-/* int main(int argc, char** argv){ */
-/*   if(argc>1){ */
-/*     array collection = parse_string_to_int(argc,argv); */
-/*     print_collection(collection); */
-/*   } else { */
-/*     printf("This program needs more parameters\n"); */
-/*   } */
-/*  */
-/*   return 0; */
-/* } */
