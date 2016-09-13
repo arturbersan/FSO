@@ -12,21 +12,6 @@ struct cell_to_calc {
     int *w;
 };
 
-void *check_for_one(void *param)
-{
-    struct cell_to_calc *item= param;
-    int i_cell = item->i;
-    int *arr = item->arr;
-    int *w = item->w;
-
-    if (w[i_cell]) {
-        printf("Maximum = %d\n", arr[i_cell]);
-        printf("Location = %d\n", i_cell);
-    }
-
-    pthread_exit(0);
-}
-
 void *greater_cell(void *param)
 {
     struct cell_to_calc *item= param;
