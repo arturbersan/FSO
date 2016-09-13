@@ -107,54 +107,58 @@ int *thread_compare(int *arr, int length)
 
 int main(int argc, char const *argv[])
 {
-    int length = argc-1;
+    int length = atoi(argv[1]);
+    if(length==argc-2 && length<=100){
 
-    int *arr = malloc(sizeof(int)*length);
+        int *arr = malloc(sizeof(int)*length);
 
-    for (int i=0;i<length;++i) {
-        arr[i] = atoi(argv[i+1]);
+        for (int i=0;i<length;++i) {
+            arr[i] = atoi(argv[i+2]);
+        }
+
+        printf("Number of input values = %d\n", length);
+        printf("Input values x = ");
+        for (int i=0;i<length;++i) {
+            printf(" %d", arr[i]);
+        }
+        printf("\n");
+
+        int *w = thread_compare(arr, length);
+        printf("After Step 2\n");
+        printf("w = ");
+        for (int i=0;i<length;++i) {
+            printf("%d ", w[i]);
+        }
+        printf("\n");
+
+
+        pthread_t *threads_vector = (pthread_t *)malloc(sizeof(pthread_t)*length);
+        struct cell_to_calc *cells = malloc(sizeof(struct cell_to_calc)*(length));
+
+        int *num_to_calc = malloc(sizeof(int)*length);
+        for (int i=0; i < length; ++i) {
+            num_to_calc[i] = i;
+        }
+
+        for (int i=0; i < length; ++i) {
+            cells[i].arr = arr;
+            cells[i].w = w;
+            cells[i].i = num_to_calc[i];
+            pthread_create(&threads_vector[i], NULL, check_for_one, (void *)&cells[i]);
+        }
+
+        for (int i=0; i < length; ++i) {
+            pthread_join(threads_vector[i], NULL);
+        }
+
+        free(num_to_calc);
+        free(threads_vector);
+        free(cells);
+
+        free(w);
+        free(arr);
+    } else {
+        printf("Size of array or amount of parameter invalid\n");
     }
-
-    printf("Number of input values = %d\n", length);
-    printf("Input values x = ");
-    for (int i=0;i<length;++i) {
-        printf(" %d", arr[i]);
-    }
-    printf("\n");
-
-    int *w = thread_compare(arr, length);
-    printf("After Step 2\n");
-    printf("w = ");
-    for (int i=0;i<length;++i) {
-        printf("%d ", w[i]);
-    }
-    printf("\n");
-
-
-    pthread_t *threads_vector = (pthread_t *)malloc(sizeof(pthread_t)*length);
-    struct cell_to_calc *cells = malloc(sizeof(struct cell_to_calc)*(length));
-
-    int *num_to_calc = malloc(sizeof(int)*length);
-    for (int i=0; i < length; ++i) {
-        num_to_calc[i] = i;
-    }
-
-    for (int i=0; i < length; ++i) {
-        cells[i].arr = arr;
-        cells[i].w = w;
-        cells[i].i = num_to_calc[i];
-        pthread_create(&threads_vector[i], NULL, check_for_one, (void *)&cells[i]);
-    }
-
-    for (int i=0; i < length; ++i) {
-        pthread_join(threads_vector[i], NULL);
-    }
-
-    free(num_to_calc);
-    free(threads_vector);
-    free(cells);
-
-    free(w);
-    free(arr);
     return 0;
 }
