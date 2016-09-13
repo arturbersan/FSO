@@ -21,14 +21,14 @@ $ make
 #### Utilização
  Para utilizar o programa, o usuário deverá inserir o nome do executável gerado, o tamanho do array e em seguida, uma sequencia de inteiros como parâmetros da linha de comando. Por exemplo:
 ```
-$ ./prog 4 3 1 7 4
+$ ./a.out 4 3 1 7 4
 ```
 O programa irá apresentar a quantidade de inputs os valores dos inputs, o array 'w' antes e depois da inicialização, as comparações entre os elementos, o maior valor e a posição dele.
 
 #### Caso de Teste Válido
 Um caso de teste válido para o programa seria, executar o binário com os seguintes argumentos:
 ```
-$ ./prog 6 1 20 3 40 5 60
+$ ./a.out 6 1 20 3 40 5 60
 ```
 # Limitações conhecidas
 Caso o usuário digitar um número muito grande, irá causar overflow.
@@ -55,11 +55,45 @@ Corta n-2! com n-2! e fica:
 n(n-1)/2
 ```
 
-## Análise
-A não utilização de threads teve um desempenho melhor tanto com pequeno input (3x2 e 2x3) quanto com um input um pouco maior (20x20 e 20x20). Isto se deve ao fato de que as operações realizadas no problema são relativamente simples e que o input ainda não era grande o suficiente para fazer com que a utilização de threads valesse a pena. O overhead de criar threads, esperar, dar join em cada uma, dentre outras coisas, faz com que um tempo relativamente grande seja gasto gerenciando esse recurso.
+##Resultados obtidos
+Para executar esse passo, foi necessário compilar o programa 'sequencial.c' e rodar tanto o programa em questão quanto o main.c. Para compilar o sequencial.c:
+```
+gcc -o prog sequencial.c -std=c99
+```
+As instruções de uso do programa 'sequencial.c', são as mesmas do 'main.c'
+###Com o tamanho de array = 4:
+Com thread:
+real  0m0.006s
+user  0m0.002s
+sys   0m0.006s
 
-A respeito da utilização de diversas threads X a utilização de threads num limite dado pelo /proc/cpuinfo, o desempenho da questão B ficou inferior para o arquivo "in" no que tange o tempo em que o binário estava executando (0.002s vs 0.001s). Isto se deve ao fato de uma menor alocação de threads. Por outro lado, o tempo em que o SO estava gerenciando as threads (sys) foi bem maior (0.006s vs 0.010s). Descobrir o número de núcleos do processador em tempo de execução pode ter tido um grande peso nesse resultado.
+Sem thread:
+real  0m0.003s
+user  0m0.001s
+sys   0m0.002s
 
-Ainda, para um maior input, a solução B teve desempenho quase igual em relação ao item sys (ou seja, a diferença diminuiu, provavelmente pela solução C usar menos threads), mas em relação ao user a solução B teve desempenho superior (0.007s vs 0.011s).
 
-Logo, conclui-se que para o problema dado e para o conjunto de inputs utilizados a solução A embora seja a mais simples foi a solução mais rápida, a solução B a segunda mais rápida, e a solução C a de pior desempenho.
+###Com o tamanho de array = 10:
+Com Thread:
+real  0m0.010s
+user  0m0.004s
+sys   0m0.011s
+
+Sem thread:
+real  0m0.003s
+user  0m0.001s
+sys   0m0.002s
+
+###Com o tamanho de array = 20:
+Com Thread:
+real  0m0.024s
+user  0m0.009s
+sys   0m0.025s
+
+Sem thread:
+real  0m0.003s
+user  0m0.001s
+sys   0m0.002s
+
+###Análise:
+A não utilização de threads teve um desempenho melhor para o array de todos os tamanhos analisados. Isto se deve ao fato de que as operações realizadas no problema são relativamente simples e o overhead de criar threads, esperar, dar join em cada uma, dentre outras coisas, faz com que um tempo relativamente grande seja gasto gerenciando esse recurso.

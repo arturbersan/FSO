@@ -57,38 +57,42 @@ int *thread_compare(int *arr, int length)
 
 int main(int argc, char const *argv[])
 {
-    int length = argc-1;
+    int length = atoi(argv[1]);
+    if(length==argc-2 && length<=100){
 
-    int *arr = malloc(sizeof(int)*length);
+      int *arr = malloc(sizeof(int)*length);
 
-    for (int i=0;i<length;++i) {
-        arr[i] = atoi(argv[i+1]);
+      for (int i=0;i<length;++i) {
+          arr[i] = atoi(argv[i+2]);
+      }
+
+      printf("Number of input values = %d\n", length);
+      printf("Input values x = ");
+      for (int i=0;i<length;++i) {
+          printf(" %d", arr[i]);
+      }
+      printf("\n");
+
+      int *w = thread_compare(arr, length);
+      printf("After Step 2\n");
+      printf("w = ");
+      for (int i=0;i<length;++i) {
+          printf("%d ", w[i]);
+      }
+      printf("\n");
+
+
+      for (int i=0; i < length; ++i) {
+          if (w[i]) {
+              printf("Maximum = %d\n", arr[i]);
+              printf("Location = %d\n", i);
+          }
+      }
+
+      free(w);
+      free(arr);
+    } else {
+        printf("Parametrs invalid\n");
     }
-
-    printf("Number of input values = %d\n", length);
-    printf("Input values x = ");
-    for (int i=0;i<length;++i) {
-        printf(" %d", arr[i]);
-    }
-    printf("\n");
-
-    int *w = thread_compare(arr, length);
-    printf("After Step 2\n");
-    printf("w = ");
-    for (int i=0;i<length;++i) {
-        printf("%d ", w[i]);
-    }
-    printf("\n");
-
-
-    for (int i=0; i < length; ++i) {
-        if (w[i]) {
-            printf("Maximum = %d\n", arr[i]);
-            printf("Location = %d\n", i);
-        }
-    }
-
-    free(w);
-    free(arr);
     return 0;
 }
