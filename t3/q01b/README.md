@@ -1,4 +1,4 @@
-# FSO - Trabalho 3, Questão 1, Item A
+# FSO - Trabalho 3, Questão 1, Item B
 >  Alunos: Dylan Guedes e Artur Bersan
 
 >  Matrículas: 12/0115727 e 14/0016813
@@ -13,7 +13,7 @@
 
 ## Instruções
 #### Compilando
-Para compilar utilizando a versão estática da biblioteca, basta rodar o comando:
+Para compilar utilizando a versão dinâmica da biblioteca, basta rodar o comando:
 ```
  $ make all
 ```
