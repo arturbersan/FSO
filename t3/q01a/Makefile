@@ -1,7 +1,7 @@
 CC = gcc
 
 all:
-	$(CC) -Wall -c libprimo/libprimo.c -o libprimo/libprimo.o
+	$(CC) -Wall -c libprimo/libprimo.c -std=c99 -o libprimo/libprimo.o
 	ar -cvq libprimo/libprimo.a libprimo/libprimo.o
 	ar -t libprimo/libprimo.a
 	$(CC) -o app test.c libprimo/libprimo.a -lm
