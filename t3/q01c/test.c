@@ -1,3 +1,6 @@
+int gera_primo();
+int testa_primo(int primo);
+
 #include <stdio.h>
 #include <dlfcn.h>
 

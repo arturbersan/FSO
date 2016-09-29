@@ -11,6 +11,22 @@
 ## Ambiente de Desenvolvimento
 > Computadores pessoais. Utilizamos o Linux, Makefile, gcc, pthread, git, valgrind e vim.
 
+## Questões
+>  Quais foram as alterações de códigos-fonte necessárias para a solução (se houverem)?
+
+Não foram necessárias quaisquer alterações no código fonte da biblioteca ou do código que utiliza a biblioteca. A diferença ficou na maneira com que o binário e os arquivos da libprimo foram gerados.
+
+> Dados os conhecimentos adquiridos em função desse trabalho, indique vantagens
+e problemas decorrentes da utilização de bibliotecas dinâmicas
+
+Por conta do escopo do trabalho, não foram percebidas grandes diferenças entre utilizar a abordagem estática ou dinâmica para a biblioteca criada (libprimo). Contudo, tem-se noção de que as bibliotecas dinâmicas apresentam as seguintes vantagens:
+- É possível trocar componentes utilizados pela biblioteca `.so` sem que seja necessário recompilar todo o restante do código
+- O executável apresenta um tamanho menor, por ter menos código repetido
+
+E as seguintes desvantagens:
+- Algumas fases terão performance relativamente pior que a abordagem estática, pois um overhead adicional aparece na fase de loading
+- Enquanto na abordagem estática o binário já contém todas as dependências, na abordagem dinâmica é preciso ter todas as dependências instaladas/a disposição. Ou seja, uma desvantagem é o fato de ter várias dependências separadas, e precisar que elas sempre estejam presentes (enquanto na abordagem estática bastava só ter o arquivo binário)
+
 ## Instruções
 #### Compilando
 Para compilar utilizando a versão estática da biblioteca, basta rodar o comando:
