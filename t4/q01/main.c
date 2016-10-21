@@ -7,9 +7,6 @@
 #include <time.h>
 #include <utime.h>
 
-/*
- * OBS: o trecho de permissões foi fortemente baseado no código presente no link: http://codewiki.wikidot.com/c:system-calls:stat
-*/
 char *change_extension(char *file_name, char new_extension[3])
 {
         char *bkp_name=malloc(sizeof(file_name));
@@ -28,19 +25,7 @@ void output(struct stat fs)
 {
         printf("Horario de modificação: %s\n", ctime(&fs.st_mtime));
         printf("Horário de acesso: %s\n", ctime(&fs.st_atime));
-        printf("Permissões: ");
-        printf((S_ISDIR(fs.st_mode)) ? "d" : "-");
-        printf((fs.st_mode & S_IRUSR) ? "r" : "-");
-        printf((fs.st_mode & S_IWUSR) ? "w" : "-");
-        printf((fs.st_mode & S_IXUSR) ? "x" : "-");
-        printf((fs.st_mode & S_IRGRP) ? "r" : "-");
-        printf((fs.st_mode & S_IWGRP) ? "w" : "-");
-        printf((fs.st_mode & S_IXGRP) ? "x" : "-");
-        printf((fs.st_mode & S_IROTH) ? "r" : "-");
-        printf((fs.st_mode & S_IWOTH) ? "w" : "-");
-        printf((fs.st_mode & S_IXOTH) ? "x" : "-");
         printf("\n");
-
 }
 
 int main(int argc, char *argv[])
@@ -88,7 +73,6 @@ int main(int argc, char *argv[])
                 mytm->tm_year=atoi(year)-1900;
                 mytm->tm_yday=atoi(d)*atoi(month);
                 mktime(mytm);
-                printf("%s\n", asctime(mytm));
 
                 struct utimbuf time_buf;
                 time_buf.actime=mktime(mytm);
@@ -97,8 +81,7 @@ int main(int argc, char *argv[])
                 stat(file_name, &fs);
 
                 printf("\nInformações após a mudança:\n");
-                printf("Horario de modificação: %s\n", ctime(&fs.st_mtime));
-                printf("Horário de acesso: %s\n", ctime(&fs.st_atime));
+                output(fs);
 
                 free(new_name);
 
