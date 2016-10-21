@@ -39,3 +39,21 @@ $ ./a.out test_file.txt 201405020304
 O arquivo `test_file.txt` deve estar na mesma pasta do binário criado.
 
 ## Limitações conhecidas
+* A data de criação dos arquivos (birth time) não é alterada. É possível checar a data de criação de um arquivo através do comando:
+```
+sudo debugfs -R 'stat usuario/caminho/q01/test_file.txt' /device_do_arquivo
+```
+exemplo:
+```
+sudo debugfs -R 'stat dguedes/Workspace/fso/FSO/t4/q01/test_file.txt' /dev/mapper/fedora-home
+```
+OBS: Dependendo do file-system utilizado, o comando mencionado acima não terá a data de criação `crtime`. Em file-systems com inode de tamanhos menores que 256bytes, o campo `crtime` não é utilizado.
+Fontes:
+- Ultima resposta:
+```
+http://unix.stackexchange.com/questions/50177/birth-is-empty-on-ext4/50184#50184
+```
+- Tabela do ext4 - O `crtime` é salvo no endereço 0x90, que em decimal é 144, um valor maior que 128, por exemplo
+```
+https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout#Inode_Table
+```
