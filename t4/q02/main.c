@@ -4,46 +4,50 @@
 #include <stdio.h>
 #include <string.h>
 
-void listdir(const char *path, int N,const char *substring)
+void listdir(const char *name, int level,int N,const char *substring)
 {
   DIR *dir;
   struct dirent *entry;
   int j;
 
-  if (!(dir = opendir(path)))
+  if (!(dir = opendir(name)))
     return;
   if (!(entry = readdir(dir)))
     return;
-  printf("Resultado de buscador '%s' na pasta %s\n",substring,path);
 
   do {
-    /* int i = 1; */
     if (entry->d_type == DT_DIR) {
+      char path[1024];
+      int len = snprintf(path, sizeof(path)-1, "%s/%s", name, entry->d_name);
+      path[len] = 0;
       if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
         continue;
+      listdir(path, level + 1,N,substring);
     }
     else if(strstr(entry->d_name, substring) != NULL){
       char file_name[256];
-      strcpy(file_name,path);
+      strcpy(file_name,name);
       strcat(file_name,"/");
       strcat(file_name,entry->d_name);
-      /* printf("Nome do arquivo  = %s\n\n", file_name); */
+
       FILE *desired_file = fopen(file_name, "r");
       if(!desired_file)
         printf("Invalid file\n");
       else{
-        printf("%s/%s\n", path,entry->d_name);
+        printf("%s/%s\n", name,entry->d_name);
         for(j = 0; j<30;j++){
-          printf("%c",getc(desired_file));
+          char character = getc(desired_file);
+          if(character == EOF)
+            break;
+          printf("%c",character);
         }
         printf("\n");
       }
     }
-    /* i++; */
-  } while (entry = readdir(dir) /* || i == N */ );
+    N--;
+  } while ((entry = readdir(dir)) && N>0);
   closedir(dir);
 }
-
 
 int main(int argc, char ** argv)
 {
@@ -53,7 +57,7 @@ int main(int argc, char ** argv)
     char *path = argv[1];
     char *substring = argv[2];
     int N = atoi(argv[3]);
-    listdir(path,N,substring);
+    listdir(path,0,N,substring);
   }
 
   return 0;
