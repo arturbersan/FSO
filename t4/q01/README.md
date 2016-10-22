@@ -15,11 +15,11 @@
 
 ## Instruções
 #### Compilando
-Para compilar, digite na mesma pasta que o Makefile
+Para compilar, entre com o seguinte comando no terminal:
 ```
  $ make all
 ```
-Para remover os arquivos temporários e os executáveis
+Para remover os arquivos temporários e os executáveis:
 ```
  $ make clean
 ```
@@ -36,10 +36,10 @@ Um caso de teste válido é executar o seguinte input:
 ```
 $ ./a.out test_file.txt 201405020304
 ```
-O arquivo `test_file.txt` deve estar na mesma pasta do binário criado.
+O arquivo `test_file.txt` deve estar na mesma pasta do binário criado, e está sendo enviado junto com as outras partes do trabalho.
 
 ## Limitações conhecidas
-* A data de criação dos arquivos (birth time) não é alterada. É possível checar a data de criação de um arquivo através do comando:
+* A data de criação dos arquivos (birth time) não é alterada e nem apresentada. É possível checar a data de criação de um arquivo através do comando:
 ```
 sudo debugfs -R 'stat usuario/caminho/q01/test_file.txt' /device_do_arquivo
 ```
@@ -57,3 +57,5 @@ http://unix.stackexchange.com/questions/50177/birth-is-empty-on-ext4/50184#50184
 ```
 https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout#Inode_Table
 ```
+* A data de criação não está apresentada no programa (embora pudesse ser feito através do comando mencionado no item anterior) por decisão da dupla, pois o comando precisa de permissão de super-usuário.
+* O arquivo de backup não tem exatamente os mesmos metadados do arquivo origem, pois o próprio `cp` modifica alguns desses meta-dados.

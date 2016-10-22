@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
                 struct stat fs;
                 stat(file_name, &fs);
 
+                printf("Obs: Para ter acesso as informações do crtime do arquivo, cheque o README.pdf\n");
                 printf("Informações antes da mudança:\n");
                 output(fs);
 

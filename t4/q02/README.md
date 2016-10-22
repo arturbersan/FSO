@@ -1,4 +1,4 @@
-# FSO - Trabalho 4, Questão 1
+# FSO - Trabalho 4, Questão 2
 >  Alunos: Dylan Guedes e Artur Bersan
 
 >  Matrículas: 12/0115727 e 14/0016813
@@ -41,9 +41,7 @@ $ ./a.out . test 4
 O programa irá fazer uma busca no diretório atual e procurar os arquivos que tenha a substring "test" no seu nome.
 
 ## Questão discursiva
-O FHS é o sistema de arquivos hierárquico padrão que define os principais diretórios e seus respectivos conteúdos em um SO da família Unix. Para ter acesso as pastas tipicamente encontradas na raiz de um sistema de arquivos UNIX, basta começar por "/" que o path inicia do diretório raiz.
+O FHS é o sistema de arquivos hierárquico padrão que define os principais diretórios e seus respectivos conteúdos em um SO da família Unix. Para ter acesso as pastas tipicamente encontradas na raiz de um sistema de arquivos UNIX, basta começar por "/" que é o path inicial do diretório raiz.
 
 ## Limitações conhecidas
-```
 Caso o usuário passe um caminho que não exista na árvore de diretórios, o programa não irá informar essa ocorrência.
-```
