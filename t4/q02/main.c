@@ -45,7 +45,7 @@ void listdir(const char *name, int level,int N,const char *substring)
       }
     }
     N--;
-  } while ((entry = readdir(dir)) && N>0);
+  } while ((entry = readdir(dir)) && N>=0 );
   closedir(dir);
 }
 
