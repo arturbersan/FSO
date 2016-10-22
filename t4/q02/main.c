@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <stdio.h>
 #include <string.h>
+int stop=0;
 
 void listdir(const char *name, int level,int N,const char *substring)
 {
@@ -29,12 +30,15 @@ void listdir(const char *name, int level,int N,const char *substring)
       strcpy(file_name,name);
       strcat(file_name,"/");
       strcat(file_name,entry->d_name);
+      if(stop==N)
+        break;
+      stop++;
 
       FILE *desired_file = fopen(file_name, "r");
       if(!desired_file)
         printf("Invalid file\n");
       else{
-        printf("%s/%s\n", name,entry->d_name);
+        printf("%d %s/%s\n", stop,name,entry->d_name);
         for(j = 0; j<30;j++){
           char character = getc(desired_file);
           if(character == EOF)
@@ -44,8 +48,7 @@ void listdir(const char *name, int level,int N,const char *substring)
         printf("\n");
       }
     }
-    N--;
-  } while ((entry = readdir(dir)) && N>=0 );
+  } while (entry = readdir(dir));
   closedir(dir);
 }
 

@@ -45,4 +45,5 @@ O FHS é o sistema de arquivos hierárquico padrão que define os principais dir
 
 ## Limitações conhecidas
 ```
+Caso o usuário passe um caminho que não exista na árvore de diretórios, o programa não irá informar essa ocorrência.
 ```
